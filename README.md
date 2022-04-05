@@ -1,4 +1,4 @@
-# sombochea.github.io
+# [sombochea.github.io](https://sombochea.github.io)
 
 ## Up and running
 
@@ -12,6 +12,17 @@ First, run the development server:
 
 ```bash
 yarn dev
+```
+
+Build to production:
+
+```bash
+yarn build
+```
+
+Export to static files:
+```bash
+yarn export
 ```
 
 ## Contributors
