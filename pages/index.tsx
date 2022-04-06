@@ -1,10 +1,75 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import useSWR from "swr";
+import { fetchAllPosts } from "../services/post.service";
 import styles from "../styles/Home.module.css";
-import CustomImageLoader from "./helper/ImageLoader";
+import { Post } from "./api/posts";
+import styled from "styled-components";
+
+const GridView = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    flex-direction: column;
+  }
+`;
+
+const PostCard = styled.div`
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 300px;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: #0070f3;
+    border-color: #0070f3;
+  }
+`;
+
+const PostTitle = styled.h2`
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+`;
+
+const PostDescription = styled.p`
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
+
+const PostAuthor = styled.p`
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
 
 const Home: NextPage = () => {
+  const { data, error } = useSWR("/api/get-data", fetchAllPosts);
+
+  if (error) return <div>failed to load</div>;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,24 +80,22 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="javascript:alert('hi')">my blog!</a>
+          Welcome to <a href="https://sombochea.medium.com">my blog!</a>
         </h1>
-      </main>
 
-      <footer className={styles.footer}>
-        <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image
-              loader={CustomImageLoader}
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              width={72}
-              height={16}
-            />
-          </span>
-        </a>
-      </footer>
+        <GridView>
+          {data &&
+            data.map((post: Post) => (
+              <PostCard key={post.id}>
+                <PostTitle title={post.title}>{post.title}</PostTitle>
+                {/* <PostAuthor>{post.created_by}</PostAuthor> */}
+                <PostDescription title={post.short_description}>
+                  {post.short_description}
+                </PostDescription>
+              </PostCard>
+            ))}
+        </GridView>
+      </main>
     </div>
   );
 };
