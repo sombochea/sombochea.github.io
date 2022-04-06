@@ -1,5 +1,29 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import Cors from "cors";
+
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ["GET", "HEAD", "OPTIONS"],
+});
+
+// Helper method to wait for a middleware to execute before continuing
+// And to throw an error when an error happens in a middleware
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse<any>,
+  fn: any
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 
 export type Post = {
   id: string;
@@ -9,7 +33,7 @@ export type Post = {
   created_at: number; // timestampin milliseconds
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Post[]>
 ) {
@@ -47,5 +71,9 @@ export default function handler(
       created_at: new Date().getTime(),
     },
   ];
+
+  // Run the middleware
+  await runMiddleware(req, res, cors);
+
   res.status(200).json(data);
 }
