@@ -28,13 +28,22 @@ const PostCard = styled.div`
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+  width: 100%;
+  max-width: 100%;
 
   &:hover,
   &:focus,
   &:active {
     color: #0070f3;
     border-color: #0070f3;
+  }
+
+  @media (max-width: 600px) {
+    margin: 0.5rem;
+  }
+
+  @media (max-width: 400px) {
+    margin: 0.25rem;
   }
 `;
 
@@ -66,7 +75,7 @@ const PostAuthor = styled.p`
 `;
 
 const Home: NextPage = () => {
-  const { data, error } = useSWR("/api/get-data", fetchAllPosts);
+  const { data, error } = useSWR("/api/posts", fetchAllPosts);
 
   if (error) return <div>failed to load</div>;
 
@@ -84,7 +93,7 @@ const Home: NextPage = () => {
         </h1>
 
         <GridView>
-          {data &&
+          {(data &&
             data.map((post: Post) => (
               <PostCard key={post.id}>
                 <PostTitle title={post.title}>{post.title}</PostTitle>
@@ -93,7 +102,12 @@ const Home: NextPage = () => {
                   {post.short_description}
                 </PostDescription>
               </PostCard>
-            ))}
+            ))) || (
+            <>
+              <br />
+              <p>{"Loading..."}</p>
+            </>
+          )}
         </GridView>
       </main>
     </div>
