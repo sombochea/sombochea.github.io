@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import useSWR from "swr";
 import { fetchAllPosts } from "../services/post.service";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/default.module.css";
 import { Post } from "./api/posts";
 import styled from "styled-components";
 
@@ -91,6 +91,13 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://sombochea.medium.com">my blog!</a>
         </h1>
+        <h3 className={styles.description}>
+          We're building better things
+          <br />
+          💖💖💖
+          <br />
+          BE-BOLD * BE-RIGHT * BE-HONEST
+        </h3>
 
         <GridView>
           {(data &&
