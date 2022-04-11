@@ -74,6 +74,10 @@ const PostAuthor = styled.p`
   -webkit-box-orient: vertical;
 `;
 
+const Bolder = styled.span`
+  font-weight: 800;
+`;
+
 const Home: NextPage = () => {
   const { data, error } = useSWR("/api/posts", fetchAllPosts);
 
@@ -92,11 +96,11 @@ const Home: NextPage = () => {
           Welcome to <a href="https://sombochea.medium.com">my blog!</a>
         </h1>
         <h3 className={styles.description}>
-          We're building better things
+          We&#39;re building better things
           <br />
           💖💖💖
           <br />
-          BE-BOLD * BE-RIGHT * BE-HONEST
+          <Bolder>BE-BOLD</Bolder> * BE-RIGHT * BE-HONEST
         </h3>
 
         <GridView>
