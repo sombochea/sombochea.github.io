@@ -70,6 +70,14 @@ export default async function handler(
       created_by: "@sombochea",
       created_at: new Date().getTime(),
     },
+    {
+      id: "5",
+      title: "Make the AI do ✍️ not think 🤔",
+      short_description:
+        "In the new era of the AI world, everyone looks into and is very interested.",
+      created_by: "@sombochea",
+      created_at: new Date().getTime(),
+    },
   ];
 
   // Run the middleware
