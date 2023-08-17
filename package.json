@@ -25,7 +25,7 @@
     "@types/styled-components": "^5.1.26",
     "babel-plugin-styled-components": "^2.1.1",
     "eslint": "8.40.0",
-    "eslint-config-next": "13.4.15",
+    "eslint-config-next": "13.4.17",
     "typescript": "5.0.4"
   }
 }
